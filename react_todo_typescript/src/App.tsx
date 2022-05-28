@@ -3,7 +3,9 @@ import React, {ChangeEvent, FC} from 'react';
 import './App.css';
 import { useState } from 'react';
 import { ITask } from './Interface';
+import TodoTask from './Components/TodoTask';
 
+//https://www.youtube.com/watch?v=bjnW2NLAofI&ab_channel=PedroTech
 const App : FC = () => {
 
   const [task, setTask] = useState<string>('')
@@ -27,6 +29,12 @@ const App : FC = () => {
     console.log(todo)
   }
 
+  const completeTask = (taskNameToDelete : string) : void => {
+    setTodo(todo.filter((task)=>{
+      return task.taskName != taskNameToDelete
+    }))
+  }
+
   return (
     <div className="App">
       <div className='header'>
@@ -46,7 +54,11 @@ const App : FC = () => {
         </div>
         <button onClick={addTask}>Add</button>
       </div>
-      <div className='todoList'></div>
+      <div className='todoList'>
+        {todo.map((task : ITask, key : number)=>{
+          return <TodoTask key={key} task={task} completeTask={completeTask}/>
+        })}
+      </div>
     </div>
   );
 }
